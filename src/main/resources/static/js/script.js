@@ -92,3 +92,35 @@ function renderSuggestions(suggestions) {
     suggestionContainer.appendChild(suggestionItem);
   });
 }
+//what do when we start searching
+function searching (){
+  hideSuggestionContainer()
+  searchingAnimation()
+  scrollToTop()
+  blockEverything()
+
+
+
+
+}
+//show searching animation
+function searchingAnimation() {
+
+  document.getElementById('loader').style.display = 'block';
+}
+//hide suggestion container
+function hideSuggestionContainer() {
+  document.getElementById('suggestion-container').style.display = 'none';
+}
+//go top of page
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+//block every touch when searching
+function blockEverything() {
+  document.getElementById('top').style.pointerEvents = 'none';
+}
+

@@ -1,13 +1,12 @@
 package com.fz.filmFinder.filmFinder.service;
 
-import com.fz.filmFinder.filmFinder.model.DTO.MovieInfo;
+import com.fz.filmFinder.filmFinder.model.DTO.MovieInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -26,14 +25,14 @@ public class ImdbDataService {
     /*
     public static void main(String[] args) throws JSONException {
         // تست تابع getImdbData با فیلم‌های مختلف
-        List<MovieInfo> moviesData = getImdbData(Arrays.asList("dark"));
+        List<MovieInfoDTO> moviesData = getImdbData(Arrays.asList("dark"));
         System.out.println("Movies data: " + moviesData);
     }
     */
 
-    public static LinkedList<MovieInfo> getImdbData(List<String> moviesList) throws JSONException, InterruptedException {
+    public static LinkedList<MovieInfoDTO> getImdbData(List<String> moviesList) throws JSONException, InterruptedException {
         //لیستی از ابجکت فیلم ها
-        LinkedList<MovieInfo> moviesDataList = new LinkedList<>();
+        LinkedList<MovieInfoDTO> moviesDataList = new LinkedList<>();
         //
         int numThreads = 30; // Number of threads to create
         ThreadPoolExecutor executor = new ThreadPoolExecutor(numThreads, numThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
@@ -47,7 +46,7 @@ public class ImdbDataService {
                     JSONArray descriptionArray = jsonObject.getJSONArray("description");
                     if (descriptionArray.length() > 2) {
                         JSONObject firstDescription = descriptionArray.getJSONObject(0);
-                        MovieInfo movieData = extractMovieData(firstDescription);
+                        MovieInfoDTO movieData = extractMovieData(firstDescription);
                         moviesDataList.add(movieData);
                     }
                     log.info("Movie data: " + movie + " added");
@@ -96,19 +95,19 @@ public class ImdbDataService {
         }
     }
 
-    private static MovieInfo extractMovieData(JSONObject firstDescription) throws JSONException {
-        MovieInfo movieInfo = new MovieInfo();
-        movieInfo.setTitle(firstDescription.getString("#TITLE"));
-        movieInfo.setYear(firstDescription.getInt("#YEAR"));
-        movieInfo.setImdbId(firstDescription.getString("#IMDB_ID"));
-        movieInfo.setRank(firstDescription.getInt("#RANK"));
-        movieInfo.setActors(firstDescription.getString("#ACTORS"));
-        movieInfo.setAka(firstDescription.getString("#AKA"));
-        movieInfo.setImdbUrl(firstDescription.getString("#IMDB_URL"));
-        movieInfo.setImdbIv(firstDescription.getString("#IMDB_IV"));
-        movieInfo.setPosterUrl(firstDescription.getString("#IMG_POSTER"));
-        movieInfo.setPosterWidth(firstDescription.getInt("photo_width"));
-        movieInfo.setPosterHeight(firstDescription.getInt("photo_height"));
-        return movieInfo;
+    private static MovieInfoDTO extractMovieData(JSONObject firstDescription) throws JSONException {
+        MovieInfoDTO movieInfoDTO = new MovieInfoDTO();
+        movieInfoDTO.setTitle(firstDescription.getString("#TITLE"));
+        movieInfoDTO.setYear(firstDescription.getInt("#YEAR"));
+        movieInfoDTO.setImdbId(firstDescription.getString("#IMDB_ID"));
+        movieInfoDTO.setRank(firstDescription.getInt("#RANK"));
+        movieInfoDTO.setActors(firstDescription.getString("#ACTORS"));
+        movieInfoDTO.setAka(firstDescription.getString("#AKA"));
+        movieInfoDTO.setImdbUrl(firstDescription.getString("#IMDB_URL"));
+        movieInfoDTO.setImdbIv(firstDescription.getString("#IMDB_IV"));
+        movieInfoDTO.setPosterUrl(firstDescription.getString("#IMG_POSTER"));
+        movieInfoDTO.setPosterWidth(firstDescription.getInt("photo_width"));
+        movieInfoDTO.setPosterHeight(firstDescription.getInt("photo_height"));
+        return movieInfoDTO;
     }
 }

@@ -41,28 +41,28 @@
             <img th:src="@{./img/logo.svg}" alt="Filmlane logo">
         </a>
 
-        <!--      <div class="header-actions">-->
+        <!--              <div class="header-actions">-->
 
-        <!--        <button class="search-btn">-->
-        <!--          <ion-icon name="search-outline"></ion-icon>-->
-        <!--        </button>-->
+        <!--                <button class="search-btn">-->
+        <!--                  <ion-icon name="search-outline"></ion-icon>-->
+        <!--                </button>-->
 
-        <!--        <div class="lang-wrapper">-->
-        <!--          <label for="language">-->
-        <!--            <ion-icon name="globe-outline"></ion-icon>-->
-        <!--          </label>-->
+        <!--                <div class="lang-wrapper">-->
+        <!--                  <label for="language">-->
+        <!--                    <ion-icon name="globe-outline"></ion-icon>-->
+        <!--                  </label>-->
 
-        <!--          <select name="language" id="language">-->
-        <!--            <option value="en">EN</option>-->
-        <!--            <option value="au">AU</option>-->
-        <!--            <option value="ar">AR</option>-->
-        <!--            <option value="tu">TU</option>-->
-        <!--          </select>-->
-        <!--        </div>-->
+        <!--                  <select name="language" id="language">-->
+        <!--                    <option value="en">EN</option>-->
+        <!--                    <option value="au">AU</option>-->
+        <!--                    <option value="ar">AR</option>-->
+        <!--                    <option value="tu">TU</option>-->
+        <!--                  </select>-->
+        <!--                </div>-->
 
-        <!--        <button class="btn btn-primary">Sign in</button>-->
+        <!--                <button class="btn btn-primary">Sign in</button>-->
 
-        <!--      </div>-->
+        <!--              </div>-->
 
         <button class="menu-open-btn" data-menu-open-btn>
             <ion-icon name="reorder-two"></ion-icon>
@@ -150,7 +150,6 @@
     <article>
 
 
-
         <!--
           - #TOP RATED
         -->
@@ -158,10 +157,13 @@
         <section class="top-rated">
 
             <div class="container  ">
-                <form th:method="get" th:action="@{/finder}" th:object="${movieInfo}">
-                    <div class="containers search-container" >
-                        <input id="searchMovie-input" class="custom-inputs" type="text" placeholder="اسم فیلم" th:field="*{title}"/>
+                <form th:method="get" th:action="@{/finder}" th:object="${movieInfoDTO}" onsubmit="searching()">
+                    <div class="containers search-container">
+                        <input id="searchMovie-input" class="custom-inputs" type="text" placeholder="اسم فیلم"
+                               th:field="*{title}"/>
+
                         <ul id="suggestion-container" class="suggestion-ul"></ul>
+                        <div class="loader" id="loader"></div>
                     </div>
 
                 </form>
@@ -171,50 +173,40 @@
             <section class="top-rated">
                 <div class="container">
 
-                    <p class="section-subtitle" th:if="${movieName != null and !movieName.isEmpty()}" th:text="${movieName}"></p>
+                    <p class="section-subtitle" th:if="${movieName != null and !movieName.isEmpty()}"
+                       th:text="${movieName}"></p>
 
 
-                    <h2 class="h2 section-title rtl" th:if="${#lists.size(moviesInfo) < 3}" th:text="'موردی پیدا نشد'">فیلم های مشابه</h2>
-
+                    <h2 class="h2 section-title rtl" th:if="${#lists.size(moviesInfo) == 0}"
+                        th:text="'یه سرچمون نشه؟! '"></h2>
 
 
                     <ul class="movies-list">
                         <li th:if="${#lists.size(moviesInfo) > 0}" th:each="movie :${moviesInfo}">
-                            <div class="movie-card">
+                            <form th:method="get" th:action="@{/finder}" th:object="${movieInfoDTO}" onsubmit="searching()">
+                                <div class="movie-card">
 
-                                <a href="#">
-                                    <figure class="card-banner">
-                                        <img th:src="@{${movie.posterUrl}}">
-                                    </figure>
-                                </a>
+                                    <button type="submit" th:onclick="|${movieInfoDTO.setTitle(movie.getTitle())}|"
+                                            th:disabled="${movie.getYear() == 404 || #strings.equals(movie.getYear(), '404')}"
+                                    >
+                                        <figure class="card-banner">
+                                            <img th:src="@{${movie.posterUrl}}">
+                                        </figure>
+                                    </button>
 
-                                <div class="title-wrapper">
-                                    <a href="#">
-                                        <h3 class="card-title" th:text="${movie.getTitle()}"></h3>
-                                    </a>
+                                    <div class="title-wrapper">
+                                        <a href="#">
+                                            <h3 class="card-title" th:text="${movie.getTitle()}"></h3>
+                                        </a>
+                                        <time th:datetime="${movie.getYear()}" th:text="${movie.getYear()}"></time>
+                                    </div>
+                                    <div class="card-meta">
+                                        <div class="badge badge-outline" th:text="${movie.getMovieOrTv()}"></div>
+                                    </div>
 
-                                    <time th:datetime="${movie.getYear()}" th:text="${movie.getYear()}"></time>
-                                </div>
-
-<!--                                <div class="card-meta">-->
-<!--                                    &lt;!&ndash;                                    <div class="badge badge-outline"></div>&ndash;&gt;-->
-
-<!--                                    &lt;!&ndash;                                    <div class="duration">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                        <ion-icon name="time-outline"></ion-icon>&ndash;&gt;-->
-
-<!--                                    &lt;!&ndash;                                        <time datetime="PT122M">122 min</time>&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
-
-<!--                                    <div class="rating">-->
-<!--                                        <ion-icon name="star"></ion-icon>-->
-
-<!--&lt;!&ndash;                                        <data th:text="${movie.getRank()}">7.8</data>&ndash;&gt;-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-                            </div>
+                                    <input type="hidden" th:field="*{title}"/></div>
+                            </form>
                         </li>
-
 
                     </ul>
 
@@ -270,6 +262,7 @@
 
                 </div>
             </section>
+        </section>
 
 
     </article>

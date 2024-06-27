@@ -80,6 +80,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     text-align: center;
+    position: relative;
 }
 
 .custom-inputs:focus {
@@ -1356,7 +1357,8 @@ body.active {
     }
 
     .search-btn {
-        position: relative;
+        position: absolute;
+        left: 0;
         color: var(--white);
     }
 
@@ -1781,4 +1783,32 @@ body.active {
         transform: rotate(-0.25turn);
     }
 
+}
+
+
+/*//////////////// searchig css ////////////////*/
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 30px;
+    background: radial-gradient(circle closest-side, #ffffff 94%, #12101A) right/calc(200% - 1em) 100%;
+    animation: l24 1s infinite alternate linear;
+    display:none;
+}
+.loader::before {
+
+    content: "... سرچ ینگگگ";
+    line-height: 2em;
+    color: #0000;
+    background: inherit;
+    background-image: radial-gradient(circle closest-side, #12101A 94%, #ffffff);
+    -webkit-background-clip:text;
+    background-clip:text;
+}
+
+
+@keyframes l24{
+    100%{background-position: left}
 }
