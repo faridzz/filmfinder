@@ -1,36 +1,22 @@
-# FilmFinder
+FilmFinder
+A powerful application that helps you discover similar movies by simply entering the name of a movie. Built with modern technologies like HTML, CSS, JavaScript, and Java, FilmFinder uses Spring Boot for its backend services to deliver a seamless experience.
+Features:
 
-یک برنامه است که به شما کمک می‌کند فیلم‌های مشابه را با وارد کردن نام یک فیلم پیدا کنید. این برنامه با استفاده از تکنولوژی‌های HTML، CSS، JavaScript و Java توسعه یافته و از Spring Boot برای بک‌اند استفاده می‌کند.
+Find Similar Movies: Get a list of movies similar to the one you search for.
+Responsive Design: Beautiful and adaptive design using HTML and CSS.
+Dynamic Interactions: Smooth and interactive experience powered by JavaScript.
+Robust Backend: Efficient request handling and data processing with Spring Boot.
 
-## ویژگی‌ها
 
-- **جستجوی فیلم مشابه**: با وارد کردن نام یک فیلم، فیلم‌های مشابه را به شما نشان می‌دهد.
-- **واکنش‌گرا**: طراحی واکنش‌گرا با استفاده از HTML و CSS.
-- **تعامل پویا**: استفاده از JavaScript برای ایجاد تجربه کاربری بهتر.
-- **بک‌اند قدرتمند**: استفاده از Spring Boot برای مدیریت درخواست‌ها و پردازش داده‌ها.
+How to Run:
 
-## پیش‌نیازها
-
-برای اجرای این برنامه، به موارد زیر نیاز دارید:
-
-- **Java 11** یا بالاتر
-- **Maven**
-- **Spring Boot**
-
-## نحوه نصب و اجرای برنامه
-
-1. **کلون کردن مخزن:**
-
-   ```bash
+Clone the repository:
+```bash
    git clone https://github.com/faridzz/filmfinder.git
-دسترسی به برنامه:
+```
+Start the backend server and ensure it’s running on localhost:8081.
 
-مرورگر خود را باز کرده و به آدرس زیر بروید:
-
-http://localhost:8081
-
-تماس با ما
-اگر سوالی دارید یا نیاز به کمک دارید، می‌توانید با ایمیل زیر تماس بگیرید:
-
- 
-farid.zinadin80@example.com
+Open your browser and access:
+```bash
+   http://localhost:8081
+```
